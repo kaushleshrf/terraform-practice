@@ -1,0 +1,3 @@
+variable "bstn_aish" {
+  
+}

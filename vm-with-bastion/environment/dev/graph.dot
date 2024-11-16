@@ -1,0 +1,67 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  subgraph "cluster_module.bstn_aish" {
+    label = "module.bstn_aish"
+    fontname = "sans-serif"
+    "module.bstn_aish.data.azurerm_subnet.subnetdataaish" [label="data.azurerm_subnet.subnetdataaish"];
+    "module.bstn_aish.azurerm_bastion_host.bastoin_aish" [label="azurerm_bastion_host.bastoin_aish"];
+    "module.bstn_aish.azurerm_public_ip.pip_aish" [label="azurerm_public_ip.pip_aish"];
+  }
+  subgraph "cluster_module.kv_aish" {
+    label = "module.kv_aish"
+    fontname = "sans-serif"
+    "module.kv_aish.data.azurerm_client_config.kvdataaish" [label="data.azurerm_client_config.kvdataaish"];
+    "module.kv_aish.azurerm_key_vault.kvaish" [label="azurerm_key_vault.kvaish"];
+  }
+  subgraph "cluster_module.nic_aish" {
+    label = "module.nic_aish"
+    fontname = "sans-serif"
+    "module.nic_aish.data.azurerm_subnet.subnetdataaish" [label="data.azurerm_subnet.subnetdataaish"];
+    "module.nic_aish.azurerm_network_interface.nic-aish" [label="azurerm_network_interface.nic-aish"];
+  }
+  subgraph "cluster_module.rg_aish" {
+    label = "module.rg_aish"
+    fontname = "sans-serif"
+    "module.rg_aish.azurerm_resource_group.name" [label="azurerm_resource_group.name"];
+  }
+  subgraph "cluster_module.subnet_aish" {
+    label = "module.subnet_aish"
+    fontname = "sans-serif"
+    "module.subnet_aish.azurerm_subnet.subnet_aish" [label="azurerm_subnet.subnet_aish"];
+  }
+  subgraph "cluster_module.vent_aish" {
+    label = "module.vent_aish"
+    fontname = "sans-serif"
+    "module.vent_aish.azurerm_virtual_network.ventaish" [label="azurerm_virtual_network.ventaish"];
+  }
+  subgraph "cluster_module.vm_aish" {
+    label = "module.vm_aish"
+    fontname = "sans-serif"
+    "module.vm_aish.data.azurerm_key_vault.kvaish" [label="data.azurerm_key_vault.kvaish"];
+    "module.vm_aish.data.azurerm_network_interface.nicdataaish" [label="data.azurerm_network_interface.nicdataaish"];
+    "module.vm_aish.azurerm_key_vault_secret.password" [label="azurerm_key_vault_secret.password"];
+    "module.vm_aish.azurerm_key_vault_secret.username" [label="azurerm_key_vault_secret.username"];
+    "module.vm_aish.azurerm_linux_virtual_machine.vm_aish" [label="azurerm_linux_virtual_machine.vm_aish"];
+    "module.vm_aish.random_password.apass" [label="random_password.apass"];
+  }
+  "module.bstn_aish.data.azurerm_subnet.subnetdataaish" -> "module.subnet_aish.azurerm_subnet.subnet_aish";
+  "module.bstn_aish.azurerm_bastion_host.bastoin_aish" -> "module.bstn_aish.data.azurerm_subnet.subnetdataaish";
+  "module.bstn_aish.azurerm_bastion_host.bastoin_aish" -> "module.bstn_aish.azurerm_public_ip.pip_aish";
+  "module.bstn_aish.azurerm_public_ip.pip_aish" -> "module.subnet_aish.azurerm_subnet.subnet_aish";
+  "module.kv_aish.data.azurerm_client_config.kvdataaish" -> "module.rg_aish.azurerm_resource_group.name";
+  "module.kv_aish.azurerm_key_vault.kvaish" -> "module.kv_aish.data.azurerm_client_config.kvdataaish";
+  "module.nic_aish.data.azurerm_subnet.subnetdataaish" -> "module.subnet_aish.azurerm_subnet.subnet_aish";
+  "module.nic_aish.azurerm_network_interface.nic-aish" -> "module.nic_aish.data.azurerm_subnet.subnetdataaish";
+  "module.subnet_aish.azurerm_subnet.subnet_aish" -> "module.vent_aish.azurerm_virtual_network.ventaish";
+  "module.vent_aish.azurerm_virtual_network.ventaish" -> "module.rg_aish.azurerm_resource_group.name";
+  "module.vm_aish.data.azurerm_key_vault.kvaish" -> "module.nic_aish.azurerm_network_interface.nic-aish";
+  "module.vm_aish.data.azurerm_network_interface.nicdataaish" -> "module.nic_aish.azurerm_network_interface.nic-aish";
+  "module.vm_aish.azurerm_key_vault_secret.password" -> "module.vm_aish.data.azurerm_key_vault.kvaish";
+  "module.vm_aish.azurerm_key_vault_secret.password" -> "module.vm_aish.random_password.apass";
+  "module.vm_aish.azurerm_key_vault_secret.username" -> "module.vm_aish.data.azurerm_key_vault.kvaish";
+  "module.vm_aish.azurerm_linux_virtual_machine.vm_aish" -> "module.vm_aish.data.azurerm_network_interface.nicdataaish";
+  "module.vm_aish.azurerm_linux_virtual_machine.vm_aish" -> "module.vm_aish.azurerm_key_vault_secret.password";
+  "module.vm_aish.azurerm_linux_virtual_machine.vm_aish" -> "module.vm_aish.azurerm_key_vault_secret.username";
+  "module.vm_aish.random_password.apass" -> "module.nic_aish.azurerm_network_interface.nic-aish";
+}
